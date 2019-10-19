@@ -7,7 +7,7 @@ using Twity.DataModels.Core;
 using Twity.DataModels.Trends;
 using System.Reflection;
 using System.Text.RegularExpressions;
-
+using System.Linq;
 
 public class TwitterScript : MonoBehaviour
 {
@@ -25,8 +25,9 @@ public class TwitterScript : MonoBehaviour
         Twity.Oauth.accessTokenSecret = "uWrEvMKGsoSVnd5GgAz2ZlkciFShVERjrCbysA5FPMjaC";
     
         stream = new Stream(StreamType.PublicFilter);
-        StartTrendingTopics();
-        // StartStream(tracks);
+        // StartTrendingTopics();
+        List<string> tracks = new List<string>(){"happy", "blessed", "excited"};
+        StartStream(tracks);
     }
 
     private void StartTrendingTopics()
@@ -63,6 +64,24 @@ public class TwitterScript : MonoBehaviour
         StartCoroutine(stream.On(streamParameters, OnStream));
     }
 
+    private string sent2Spec(double sentiment)
+    // What is the species that corresponds to this sentiment value?
+    {
+        string[] orderedSpecies = {
+            "little-egret",  // grandma from hell
+            "jocotoco-antpitta",  // goofy owl boi
+            "eurasian-nuthatch",  // chill but more of a wail / cry
+            "red-crossbill", // sterotypical tweeter
+            "eurasian-wren"  // carefree, long call
+        };
+        return orderedSpecies[(int) (sentiment * (orderedSpecies.Length - 1))];
+    }
+
+    private AudioClip randomChirp(string species)
+    {
+        AudioClip[] audioClips = Resources.LoadAll($"{species}/samples", typeof(AudioClip)).Cast<AudioClip>().ToArray();
+        return audioClips[UnityEngine.Random.Range(0, audioClips.Length)];
+    }
 
     private void OnStream(string response, StreamMessageType messageType)
     {
@@ -71,9 +90,10 @@ public class TwitterScript : MonoBehaviour
             if (messageType == StreamMessageType.Tweet)
             {
                 Tweet tweet = JsonUtility.FromJson<Tweet>(response);
-                Chirper chirp = new Chirper("red-crossbill/samples");
-                chirp.PlayRandomSound();
-                indico.GetSentiment(tweet.text, (Indico.Sentiment s) => Debug.Log($"{s.result} : {tweet.text}"));
+                indico.GetSentiment(tweet.text, (Indico.Sentiment s) => {
+                    AudioSource.PlayClipAtPoint(randomChirp(sent2Spec(s.result)), new Vector3(0, 0, 0));
+                    Debug.Log($"{s.result} : {tweet.text}");
+                });
             }
         }
         catch (System.Exception e)
