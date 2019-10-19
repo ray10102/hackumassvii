@@ -13,6 +13,7 @@ public class TwitterScript : MonoBehaviour
 {
     private Stream stream;
     private Indico indico;
+    private AudioSource audioSource;
     // Start is called before the first frame update
     void Start()
     {
@@ -70,6 +71,8 @@ public class TwitterScript : MonoBehaviour
             if (messageType == StreamMessageType.Tweet)
             {
                 Tweet tweet = JsonUtility.FromJson<Tweet>(response);
+                Chirper chirp = new Chirper("red-crossbill/samples");
+                chirp.PlayRandomSound();
                 indico.GetSentiment(tweet.text, (Indico.Sentiment s) => Debug.Log($"{s.result} : {tweet.text}"));
             }
         }
