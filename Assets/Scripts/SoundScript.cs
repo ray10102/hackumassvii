@@ -1,16 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class SoundScript : MonoBehaviour
 {
-    private AudioSource randomSound;
-
-    public AudioClip[] audioSources;
+    public string chirpsDir;
+    private AudioSource audioSource;
+    private AudioClip[] audioClips;
     // Start is called before the first frame update
     void Start()
     {
-        randomSound = GetComponent<AudioSource>();
+        audioClips = Resources.LoadAll(chirpsDir, typeof(AudioClip)).Cast<AudioClip>().ToArray();
+        Debug.Log("Loaded " + audioClips.Length + " chirps");
+        audioSource = GetComponent<AudioSource>();
         InvokeRepeating("PlayRandomSound", 1.0f, 1.0f);
     }
 
@@ -22,9 +25,7 @@ public class SoundScript : MonoBehaviour
 
     void PlayRandomSound()
     {
-        int random = Random.Range(0, audioSources.Length);
-        Debug.Log("Playing clip: " + audioSources[random]);
-        randomSound.clip = audioSources[random];
-        randomSound.Play();
+        audioSource.clip = audioClips[Random.Range(0, audioClips.Length)];
+        audioSource.Play();
     }
 }
