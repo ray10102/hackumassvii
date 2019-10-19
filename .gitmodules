@@ -1,0 +1,3 @@
+[submodule "Assets/Twity"]
+	path = Assets/Twity
+	url = https://github.com/toofusan/Twity.git
