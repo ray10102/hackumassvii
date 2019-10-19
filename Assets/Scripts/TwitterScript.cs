@@ -39,7 +39,6 @@ public class TwitterScript : MonoBehaviour
     {
         if (success)
         {
-            Debug.Log(response);
             Regex rgx = new Regex(@"name"":""([^""]*)"",""url");
             List<string> topics = new List<string>();
             foreach (Match match in rgx.Matches(response))
