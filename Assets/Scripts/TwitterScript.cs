@@ -29,9 +29,11 @@ public class TwitterScript : MonoBehaviour
         Twity.Oauth.accessTokenSecret = "uWrEvMKGsoSVnd5GgAz2ZlkciFShVERjrCbysA5FPMjaC";
     
         stream = new Stream(StreamType.PublicFilter);
-        StartTrendingTopics();
-        // List<string> tracks = new List<string>(){"happy", "blessed", "excited"};
-        // StartStream(tracks);
+        // StartTrendingTopics();
+        List<string> tracks = new List<string>(){"happy", "blessed", "excited"};
+        StartStream(tracks);
+        List<string> newTracks = new List<string>(){"dumb", "horrible", "idiot"};
+        UpdateStream(newTracks);
     }
 
     private void StartTrendingTopics()
@@ -66,6 +68,12 @@ public class TwitterScript : MonoBehaviour
         Twity.FilterTrack filterTrack = new Twity.FilterTrack(tracks);
         streamParameters.Add(filterTrack.GetKey(), filterTrack.GetValue());
         StartCoroutine(stream.On(streamParameters, OnStream));
+    }
+
+    private void UpdateStream(List<string> tracks)
+    {
+        stream.Off();
+        StartStream(tracks);
     }
 
     private string sent2Spec(double sentiment)
