@@ -127,9 +127,9 @@ public class TwitterScript : MonoBehaviour
             {
                 Tweet tweet = JsonUtility.FromJson<Tweet>(response);
                 indico.GetSentiment(tweet.text, (Indico.Sentiment s) => {
-                    Vector2 xz = new Vector2(UnityEngine.Random.Range(-60f, 60f), UnityEngine.Random.Range(-60f, 60f));
-                    AudioSource.PlayClipAtPoint(randomChirp(sent2Spec(s.result)), new Vector3(0, 0, 0), followers2Volume(tweet.user.followers_count));
                     float f2v = followers2Volume(tweet.user.followers_count);
+                    Vector2 xz = new Vector2(UnityEngine.Random.Range(-60f, 60f), UnityEngine.Random.Range(-60f, 60f));
+                    AudioSource.PlayClipAtPoint(randomChirp(sent2Spec(s.result)), new Vector3(xz.x, 0, xz.y), f2v);
                     waveSources.CreateWave(f2v * 10f, followers2Volume(tweet.user.followers_count)* 3f, .25f, xz.x, xz.y);
                     Debug.Log($"{tweet.user.followers_count} : {tweet.text}");
                     StartCoroutine(WithImage(tweet.user.profile_image_url, texture => {
