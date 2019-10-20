@@ -76,7 +76,7 @@ public class TwitterScript : MonoBehaviour
             "red-crossbill", // sterotypical tweeter
             "eurasian-wren"  // carefree, long call
         };
-        return orderedSpecies[(int) (sentiment * (orderedSpecies.Length - 1))];
+        return orderedSpecies[(int) (sentiment * (orderedSpecies.Length))];
     }
 
     private float followers2Volume(int followers_count)
