@@ -149,4 +149,18 @@ public class TwitterScript : MonoBehaviour
     {
         stream.Off();
     }
+
+    public void FilterBtn(string topic)
+    {
+        string[] sep = { ",", " " };
+        string[] stlist = topic.Split(sep, 1000, StringSplitOptions.RemoveEmptyEntries);
+        List<string> topics = stlist.OfType<string>().ToList();//new List<string>();
+        foreach (string s in topics)
+        {
+            Debug.Log(s);
+        }
+        //List<int> lst = ints.OfType<int>().ToList();
+        topics.Add(topic);
+        UpdateStream(topics);
+    }
 }
