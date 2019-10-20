@@ -9,16 +9,17 @@ using System;
 
 public class Indico : MonoBehaviour
 {
-    void Start()
-    {
-        GetEmotion("Hello world, it's a beautiful day to be a liberal anime girl!", (Emotion p) => Debug.Log(p.surprise));
-    }
-
     public Sentiment GetSentiment(string data, Action<Sentiment> onComplete) {
         Sentiment sentiment = new Sentiment(data, onComplete);
-        StartCoroutine(sentiment.Upload());
+        sentiment.result = UnityEngine.Random.Range(0, 1f);
+        onComplete(sentiment);
         return sentiment;
     }
+    // public Sentiment GetSentiment(string data, Action<Sentiment> onComplete) {
+    //     Sentiment sentiment = new Sentiment(data, onComplete);
+    //     StartCoroutine(sentiment.Upload());
+    //     return sentiment;
+    // }
 
     public PoliticalAnalysis GetPoliticalAnalysis(string data, Action<PoliticalAnalysis> onComplete) {
         PoliticalAnalysis political = new PoliticalAnalysis(data, onComplete);
