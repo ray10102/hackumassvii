@@ -182,7 +182,7 @@ namespace Twity
 
             } catch (System.Exception e)
             {
-                Debug.Log("CheckMessageType Error : " + e.ToString());
+                // Debug.Log("CheckMessageType Error : " + data);  // I'm sick of these messages
                 messageType = StreamMessageType.None;
                 return;
             }
