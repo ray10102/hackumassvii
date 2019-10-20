@@ -99,8 +99,9 @@ public class TwitterScript : MonoBehaviour
             {
                 Tweet tweet = JsonUtility.FromJson<Tweet>(response);
                 indico.GetSentiment(tweet.text, (Indico.Sentiment s) => {
+                    // waveSources.CreateWave()
                     AudioSource.PlayClipAtPoint(randomChirp(sent2Spec(s.result)), new Vector3(0, 0, 0), followers2Volume(tweet.user.followers_count));
-                    waveSources.CreateWave(followers2Volume(tweet.user.followers_count) * 4, 3f, .5f, UnityEngine.Random.Range(-25f, 25f), UnityEngine.Random.Range(-25f, 25f));
+                    waveSources.CreateWave(followers2Volume(tweet.user.followers_count) * 10f, followers2Volume(tweet.user.followers_count)* 3f, .5f, UnityEngine.Random.Range(-25f, 25f), UnityEngine.Random.Range(-25f, 25f));
                     Debug.Log($"{tweet.user.followers_count} : {tweet.text}");
                 });
             }
