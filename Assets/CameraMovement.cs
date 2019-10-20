@@ -19,13 +19,20 @@ public class CameraMovement : MonoBehaviour {
     float camSens = 0.12f; //How sensitive it with mouse
     private Vector3 lastMouse = new Vector3(255, 255, 255); //kind of in the middle of the screen, rather than at the top (play)
     private float totalRun= 1.0f;
+
+    public float speed = 2f;
+    private float X;
+    private float Y;
      
     void Update () {
-        lastMouse = Input.mousePosition - lastMouse ;
-        lastMouse = new Vector3(-lastMouse.y * camSens, lastMouse.x * camSens, 0 );
-        lastMouse = new Vector3(transform.eulerAngles.x + lastMouse.x , transform.eulerAngles.y + lastMouse.y, 0);
-        transform.eulerAngles = lastMouse;
-        lastMouse =  Input.mousePosition;
+ 
+        if(Input.GetMouseButton(0)) {
+            transform.Rotate(new Vector3(Input.GetAxis("Mouse Y") * speed, -Input.GetAxis("Mouse X") * speed, 0));
+            X = transform.rotation.eulerAngles.x;
+            Y = transform.rotation.eulerAngles.y;
+            transform.rotation = Quaternion.Euler(X, Y, 0);
+         }
+
         //Mouse  camera angle done.  
        
         //Keyboard commands
