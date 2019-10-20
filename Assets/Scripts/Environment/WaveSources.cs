@@ -16,7 +16,7 @@ public class WaveSources : MonoBehaviour
             x = x,
             z = z,
             createTime = Time.time,
-            color = Color.black
+            color = Random.Range(0f, 1f) < 0.33f ? Color.red : Random.Range(0f, 1f) < 0.5f ? Color.green : Color.blue
         });
     }
 
