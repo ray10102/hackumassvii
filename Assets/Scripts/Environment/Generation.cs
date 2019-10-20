@@ -39,7 +39,7 @@ public class Generation : MonoBehaviour
                 GameObject go = GameObject.Instantiate(prefabs[Random.Range(0, prefabs.Length)]);
                 go.GetComponent<Ball>().init(masterScale, linearWaveScale, linearWaveSpeed, linearWaveFrequency);
                 go.transform.position = new Vector3(i * intervals - half + Random.Range(-maxJitterScaled, maxJitterScaled), Random.Range(-maxYJitter, maxYJitter), j * intervals - half + Random.Range(-maxJitterScaled, maxJitterScaled));
-                go.transform.rotation = Random.rotation;
+                // go.transform.rotation = Random.rotation;
             }
         }
     }

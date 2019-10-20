@@ -8,11 +8,13 @@ using Twity.DataModels.Trends;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Linq;
+using UnityEngine.Networking;
 
 public class TwitterScript : MonoBehaviour
 {
     private Stream stream;
     private Indico indico;
+    public SpriteRenderer sprite;
     private WaveSources waveSources;
     private AudioSource audioSource;
     // Start is called before the first frame update
@@ -91,6 +93,23 @@ public class TwitterScript : MonoBehaviour
         return audioClips[UnityEngine.Random.Range(0, audioClips.Length)];
     }
 
+    IEnumerator WithImage(string MediaUrl, Action<Texture2D> callback)
+    {
+        using (UnityWebRequest uwr = UnityWebRequestTexture.GetTexture(MediaUrl))
+        {
+            yield return uwr.SendWebRequest();
+            if (uwr.isNetworkError || uwr.isHttpError)
+            {
+                Debug.Log(uwr.error);
+            }
+            else
+            {
+                Texture2D texture = DownloadHandlerTexture.GetContent(uwr);
+                callback(texture);
+            }
+        }
+    }
+
     private void OnStream(string response, StreamMessageType messageType)
     {
         try
@@ -100,8 +119,12 @@ public class TwitterScript : MonoBehaviour
                 Tweet tweet = JsonUtility.FromJson<Tweet>(response);
                 indico.GetSentiment(tweet.text, (Indico.Sentiment s) => {
                     AudioSource.PlayClipAtPoint(randomChirp(sent2Spec(s.result)), new Vector3(0, 0, 0), followers2Volume(tweet.user.followers_count));
-                    waveSources.CreateWave(followers2Volume(tweet.user.followers_count) * 4, 3f, .5f, UnityEngine.Random.Range(-25f, 25f), UnityEngine.Random.Range(-25f, 25f));
+                    waveSources.CreateWave(followers2Volume(tweet.user.followers_count) * 10f, followers2Volume(tweet.user.followers_count)* 3f, .5f, UnityEngine.Random.Range(-25f, 25f), UnityEngine.Random.Range(-25f, 25f));
                     Debug.Log($"{tweet.user.followers_count} : {tweet.text}");
+                    StartCoroutine(WithImage(tweet.user.profile_image_url, texture => {
+                        Rect rec = new Rect(0, 0, 48, 48);
+                        sprite.sprite = Sprite.Create(texture, rec, new Vector2(0,0), 1);
+                    }));
                 });
             }
         }
