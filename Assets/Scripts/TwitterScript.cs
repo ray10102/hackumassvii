@@ -73,10 +73,11 @@ public class TwitterScript : MonoBehaviour
             "little-egret",  // grandma from hell
             "jocotoco-antpitta",  // goofy owl boi
             "eurasian-nuthatch",  // chill but more of a wail / cry
+            "common-blackbird", // pretty and loud
             "red-crossbill", // sterotypical tweeter
             "eurasian-wren"  // carefree, long call
         };
-        return orderedSpecies[(int) (sentiment * (orderedSpecies.Length - 1))];
+        return orderedSpecies[(int) (sentiment * orderedSpecies.Length)];
     }
 
     private float followers2Volume(int followers_count)
