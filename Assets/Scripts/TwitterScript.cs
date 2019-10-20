@@ -30,11 +30,13 @@ public class TwitterScript : MonoBehaviour
         Twity.Oauth.accessTokenSecret = "uWrEvMKGsoSVnd5GgAz2ZlkciFShVERjrCbysA5FPMjaC";
     
         stream = new Stream(StreamType.PublicFilter);
-        // StartTrendingTopics();
-        List<string> tracks = new List<string>(){"happy", "blessed", "excited"};
+        List<string> tracks = new List<string>(){"twitter"};
         StartStream(tracks);
-        List<string> newTracks = new List<string>(){"dumb", "horrible", "idiot"};
-        UpdateStream(newTracks);
+        StartTrendingTopics();
+        // List<string> tracks = new List<string>(){"happy", "blessed", "excited"};
+        // StartStream(tracks);
+        // List<string> newTracks = new List<string>(){"dumb", "horrible", "idiot"};
+        // UpdateStream(newTracks);
     }
 
     private void StartTrendingTopics()
@@ -54,7 +56,7 @@ public class TwitterScript : MonoBehaviour
             {
                 topics.Add(match.Groups[1].Value);
             }
-            StartStream(topics);
+            UpdateStream(topics);
         }
         else
         {
