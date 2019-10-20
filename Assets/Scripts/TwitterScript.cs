@@ -129,12 +129,12 @@ public class TwitterScript : MonoBehaviour
                 indico.GetSentiment(tweet.text, (Indico.Sentiment s) => {
                     Vector2 xz = new Vector2(UnityEngine.Random.Range(-25f, 25f), UnityEngine.Random.Range(-25f, 25f));
                     AudioSource.PlayClipAtPoint(randomChirp(sent2Spec(s.result)), new Vector3(0, 0, 0), followers2Volume(tweet.user.followers_count));
-                    waveSources.CreateWave(followers2Volume(tweet.user.followers_count) * 10f, followers2Volume(tweet.user.followers_count)* 3f, .5f, xz.x, xz.y);
+                    float f2v = followers2Volume(tweet.user.followers_count);
+                    waveSources.CreateWave(f2v * 10f, followers2Volume(tweet.user.followers_count)* 3f, .25f, xz.x, xz.y);
                     Debug.Log($"{tweet.user.followers_count} : {tweet.text}");
                     StartCoroutine(WithImage(tweet.user.profile_image_url, texture => {
-                        aviManager.Create(xz, texture);
+                        aviManager.Create(xz, texture, Mathf.Lerp(2.5f, 5f, f2v));
                         Rect rec = new Rect(0, 0, 48, 48);
-                        sprite.sprite = Sprite.Create(texture, rec, new Vector2(0,0), 1);
                     }));
                 });
             }

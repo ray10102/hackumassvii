@@ -10,7 +10,11 @@ public class AviManager : MonoBehaviour
     private GameObject prefab;
     private List<TwitterAvi> avis = new List<TwitterAvi>();
 
-    public void Create(Vector2 xz, Texture2D image) {
+    void Start() {
+        avis.AddRange(GetComponentsInChildren<TwitterAvi>());
+    }
+
+    public void Create(Vector2 xz, Texture2D image, float height) {
         TwitterAvi aviToCreate = null;
         foreach(TwitterAvi avi in avis) {
             if (!avi.isActive) {
@@ -26,6 +30,6 @@ public class AviManager : MonoBehaviour
             avis.Add(aviToCreate);
         }
 
-        aviToCreate.Create(xz, image);
+        aviToCreate.Create(xz, image, height);
     }
 }
