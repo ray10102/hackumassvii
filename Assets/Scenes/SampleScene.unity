@@ -136,7 +136,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &540390900
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -368,8 +368,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 8808975718282666878, guid: ed6b148f215cc3540ae73b26cf67296f, type: 3}
   size: 100
-  intervals: 1
-  maxJitter: 0.2
+  intervals: 0.5
+  maxJitter: 0
   maxYJitter: 0
 --- !u!4 &1768997718
 Transform:

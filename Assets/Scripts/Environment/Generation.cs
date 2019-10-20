@@ -5,11 +5,11 @@ using UnityEngine;
 public class Generation : MonoBehaviour
 {
     [SerializeField]
-    private GameObject prefab;
+    private GameObject[] prefabs;
     [SerializeField]
     private int size = 10;
     [SerializeField]
-    private int intervals = 3;
+    private float intervals = 3;
     [SerializeField]
     private float maxJitter = .5f;
     [SerializeField]
@@ -17,18 +17,20 @@ public class Generation : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        WaveSources.Waves.Add(new WaveSource {
-            amplitude = 3f,
-            speed = 5f,
+        /*WaveSources.Waves.Add(new WaveSource {
+            amplitude = 1f,
+            speed = -2,
             frequency = 0.01f,
-            x = 20f,
-            z = 30f
-        });
+            x = 40f,
+            z = 40f
+        });*/
         float maxJitterScaled = maxJitter * intervals;
         for(int i = 0; i < size; i++) {
+            float half = intervals * size * 0.5f;
             for (int j = 0; j < size; j++) {
-                GameObject go = GameObject.Instantiate(prefab);
-                go.transform.position = new Vector3(i * intervals + Random.Range(-maxJitterScaled, maxJitterScaled), Random.Range(-maxYJitter, maxYJitter), j * intervals + Random.Range(-maxJitterScaled, maxJitterScaled));
+                GameObject go = GameObject.Instantiate(prefabs[Random.Range(0, prefabs.Length)]);
+                go.transform.position = new Vector3(i * intervals - half + Random.Range(-maxJitterScaled, maxJitterScaled), Random.Range(-maxYJitter, maxYJitter), j * intervals - half + Random.Range(-maxJitterScaled, maxJitterScaled));
+                go.transform.rotation = Random.rotation;
             }
         }
     }
