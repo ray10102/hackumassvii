@@ -42,7 +42,7 @@ public class Ball : MonoBehaviour
         mat.Clear();
         float maxOffset = 5f * masterScale;
         mat.SetColor("_Color", color * ((totalOffsetY + maxOffset) / (maxOffset * 2)));
-        renderer.SetPropertyBlock(mat);
+        // renderer.SetPropertyBlock(mat);
 
     }
 
