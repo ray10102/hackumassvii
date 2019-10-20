@@ -21,7 +21,6 @@ public class TwitterAvi : MonoBehaviour
         renderer.color = Color.clear;
     }
     public void Create(Vector2 xz, Texture2D image, float height) {
-        Debug.Log(xz);
         isActive = true;
         renderer.sprite = Sprite.Create(image, rect, new Vector2(0.5f,0.5f), 20);
         transform.position = new Vector3(xz.x, 0, xz.y);
@@ -34,7 +33,6 @@ public class TwitterAvi : MonoBehaviour
     {
         if (isActive && Time.time - startTime <= timeBeforeFade) {
             renderer.transform.localPosition = new Vector3(0, Mathf.SmoothStep(0f, height, (Time.time - startTime) / 0.5f), 0);
-            Debug.Log("bouncing");
         }
         if (isActive && Time.time - startTime > timeBeforeFade) {
             renderer.color = Color.Lerp(Color.white, Color.clear, (Time.time - startTime - timeBeforeFade) / (WaveSources.MAX_WAVE_LIFETIME - timeBeforeFade));

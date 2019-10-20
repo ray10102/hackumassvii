@@ -8,7 +8,6 @@ public class WaveSources : MonoBehaviour
     public static List<WaveSource> Waves = new List<WaveSource>();
 
     public void CreateWave(float amplitude, float speed, float frequency, float x, float z) {
-        Debug.Log("Creating wave at " + x + ", " + z);
         Waves.Add(new WaveSource {
             amplitude = amplitude,
             speed = speed,
