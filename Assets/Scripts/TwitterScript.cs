@@ -25,9 +25,9 @@ public class TwitterScript : MonoBehaviour
         Twity.Oauth.accessTokenSecret = "uWrEvMKGsoSVnd5GgAz2ZlkciFShVERjrCbysA5FPMjaC";
     
         stream = new Stream(StreamType.PublicFilter);
-        // StartTrendingTopics();
-        List<string> tracks = new List<string>(){"happy", "blessed", "excited"};
-        StartStream(tracks);
+        StartTrendingTopics();
+        // List<string> tracks = new List<string>(){"happy", "blessed", "excited"};
+        // StartStream(tracks);
     }
 
     private void StartTrendingTopics()
@@ -77,6 +77,11 @@ public class TwitterScript : MonoBehaviour
         return orderedSpecies[(int) (sentiment * (orderedSpecies.Length - 1))];
     }
 
+    private float followers2Volume(int followers_count)
+    {
+        return (float) Math.Log((double) followers_count, 10000);
+    }
+
     private AudioClip randomChirp(string species)
     {
         AudioClip[] audioClips = Resources.LoadAll($"{species}/samples", typeof(AudioClip)).Cast<AudioClip>().ToArray();
@@ -91,8 +96,8 @@ public class TwitterScript : MonoBehaviour
             {
                 Tweet tweet = JsonUtility.FromJson<Tweet>(response);
                 indico.GetSentiment(tweet.text, (Indico.Sentiment s) => {
-                    AudioSource.PlayClipAtPoint(randomChirp(sent2Spec(s.result)), new Vector3(0, 0, 0));
-                    Debug.Log($"{s.result} : {tweet.text}");
+                    AudioSource.PlayClipAtPoint(randomChirp(sent2Spec(s.result)), new Vector3(0, 0, 0), followers2Volume(tweet.user.followers_count));
+                    Debug.Log($"{tweet.user.followers_count} : {tweet.text}");
                 });
             }
         }
