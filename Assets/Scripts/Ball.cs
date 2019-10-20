@@ -32,7 +32,8 @@ public class Ball : MonoBehaviour
         float totalOffsetY = masterScale * Mathf.Sin(Time.time * linearWaveSpeed + offsetDiagonal * linearWaveFrequency);
         Color color = Color.black;
         foreach(WaveSource wave in WaveSources.Waves) {
-            if (Vector2.Distance(new Vector2(wave.x, wave.z), new Vector2(startPos.x, startPos.z)) < wave.speed *  (Time.time - wave.createTime)) {
+            float timeAlive = (Time.time - wave.createTime);
+            if (Vector2.Distance(new Vector2(wave.x, wave.z), new Vector2(startPos.x, startPos.z)) < wave.speed *  timeAlive) {
                 float circleOffset = (startPos.x - wave.x) * (startPos.x - wave.x) + (startPos.z - wave.z) * (startPos.z - wave.z);
                 totalOffsetY += wave.Amplitude * (masterScale * Mathf.Sin(Time.time * wave.speed + circleOffset * wave.frequency));
                 color += wave.color * (1 - timeAlive / WaveSources.MAX_WAVE_LIFETIME);

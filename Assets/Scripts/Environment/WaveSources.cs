@@ -7,7 +7,7 @@ public class WaveSources : MonoBehaviour
     public static readonly float MAX_WAVE_LIFETIME = 5f;
     public static List<WaveSource> Waves = new List<WaveSource>();
 
-    public void CreateWave(float amplitude, float speed, float frequency, float x, float z, Color color) {
+    public void CreateWave(float amplitude, float speed, float frequency, float x, float z) {
         Debug.Log("Creating wave at " + x + ", " + z);
         Waves.Add(new WaveSource {
             amplitude = amplitude,
@@ -16,12 +16,12 @@ public class WaveSources : MonoBehaviour
             x = x,
             z = z,
             createTime = Time.time,
-            color = color
+            color = Color.black
         });
     }
 
     public void CreateRandomWave() {
-        CreateWave(Random.Range(.5f, 8f), Random.Range(2f, 5f), Random.Range(0.01f, 0.5f), Random.Range(-25f, 25f), Random.Range(-25f, 25f), Random.Range(0f, 1f) < 0.33f ? Color.red : Random.Range(0f, 1f) < 0.5f ? Color.green : Color.blue);
+        CreateWave(Random.Range(.5f, 8f), Random.Range(2f, 5f), Random.Range(0.01f, 0.5f), Random.Range(-25f, 25f), Random.Range(-25f, 25f)); //, Random.Range(0f, 1f) < 0.33f ? Color.red : Random.Range(0f, 1f) < 0.5f ? Color.green : Color.blue);
     }
 
     public void LateUpdate() {
