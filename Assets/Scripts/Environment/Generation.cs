@@ -14,6 +14,14 @@ public class Generation : MonoBehaviour
     private float maxJitter = .5f;
     [SerializeField]
     private float maxYJitter = 0.5f;
+    [SerializeField]
+    private float masterScale = 1f;
+    [SerializeField]
+    private float linearWaveScale = 1f;
+    [SerializeField]
+    private float linearWaveSpeed = .05f;
+    [SerializeField]
+    private float linearWaveFrequency = 1f;
     // Start is called before the first frame update
     void Start()
     {
@@ -29,6 +37,7 @@ public class Generation : MonoBehaviour
             float half = intervals * size * 0.5f;
             for (int j = 0; j < size; j++) {
                 GameObject go = GameObject.Instantiate(prefabs[Random.Range(0, prefabs.Length)]);
+                go.GetComponent<Ball>().init(masterScale, linearWaveScale, linearWaveSpeed, linearWaveFrequency);
                 go.transform.position = new Vector3(i * intervals - half + Random.Range(-maxJitterScaled, maxJitterScaled), Random.Range(-maxYJitter, maxYJitter), j * intervals - half + Random.Range(-maxJitterScaled, maxJitterScaled));
                 go.transform.rotation = Random.rotation;
             }

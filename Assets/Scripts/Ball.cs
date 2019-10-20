@@ -5,13 +5,13 @@ using UnityEngine;
 public class Ball : MonoBehaviour
 {
     private Vector3 startPos;
-    [SerializeField]
+ 
     private float masterScale = 1f;
-    [SerializeField]
+  
     private float linearWaveScale = 1f;
-    [SerializeField]
+   
     private float linearWaveSpeed = .05f;
-    [SerializeField]
+    
     private float linearWaveFrequency = 1f;
 
     private MaterialPropertyBlock mat;
@@ -36,13 +36,20 @@ public class Ball : MonoBehaviour
                 float circleOffset = (startPos.x - wave.x) * (startPos.x - wave.x) + (startPos.z - wave.z) * (startPos.z - wave.z);
                 totalOffsetY += wave.Amplitude * (masterScale * Mathf.Sin(Time.time * wave.speed + circleOffset * wave.frequency));
                 color += wave.color;
-                Debug.Log(wave.color);
             }
         }
         transform.position = startPos + new Vector3(0, totalOffsetY, 0);
         mat.Clear();
-        mat.SetColor("_Color", color);
+        float maxOffset = 5f * masterScale;
+        mat.SetColor("_Color", color * ((totalOffsetY + maxOffset) / (maxOffset * 2)));
         renderer.SetPropertyBlock(mat);
 
+    }
+
+    public void init(float masterScale, float linearWaveScale, float linearWaveSpeed, float linearWaveFrequency) {
+        this.masterScale = masterScale;
+        this.linearWaveFrequency = linearWaveFrequency;
+        this.linearWaveScale = linearWaveScale;
+        this.linearWaveSpeed = linearWaveSpeed;
     }
 }
