@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class WaveSources : MonoBehaviour
 {
-    public const float MAX_WAVE_LIFETIME = 5f;
+    public static readonly float MAX_WAVE_LIFETIME = 5f;
     public static List<WaveSource> Waves = new List<WaveSource>();
 
-    public void CreateWave(float amplitude, float speed, float frequency, float x, float z) {
+    public void CreateWave(float amplitude, float speed, float frequency, float x, float z, Color color) {
         Debug.Log("Creating wave at " + x + ", " + z);
         Waves.Add(new WaveSource {
             amplitude = amplitude,
@@ -16,12 +16,12 @@ public class WaveSources : MonoBehaviour
             x = x,
             z = z,
             createTime = Time.time,
-            color = Random.Range(0f, 1f) < 0.33f ? Color.red : Random.Range(0f, 1f) < 0.5f ? Color.green : Color.blue
+            color = color
         });
     }
 
     public void CreateRandomWave() {
-        CreateWave(Random.Range(.5f, 5f), Random.Range(2f, 5f), Random.Range(0.2f, 0.7f), Random.Range(-25f, 25f), Random.Range(-25f, 25f));
+        CreateWave(Random.Range(.5f, 8f), Random.Range(2f, 5f), Random.Range(0.01f, 0.5f), Random.Range(-25f, 25f), Random.Range(-25f, 25f), Random.Range(0f, 1f) < 0.33f ? Color.red : Random.Range(0f, 1f) < 0.5f ? Color.green : Color.blue);
     }
 
     public void LateUpdate() {
@@ -39,7 +39,6 @@ public class WaveSources : MonoBehaviour
 
     public void Update() {
         if (Input.GetKeyDown("space")) {
-            Debug.Log("space");
             CreateRandomWave();
         }
     }

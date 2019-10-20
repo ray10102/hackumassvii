@@ -35,7 +35,7 @@ public class Ball : MonoBehaviour
             if (Vector2.Distance(new Vector2(wave.x, wave.z), new Vector2(startPos.x, startPos.z)) < wave.speed *  (Time.time - wave.createTime)) {
                 float circleOffset = (startPos.x - wave.x) * (startPos.x - wave.x) + (startPos.z - wave.z) * (startPos.z - wave.z);
                 totalOffsetY += wave.Amplitude * (masterScale * Mathf.Sin(Time.time * wave.speed + circleOffset * wave.frequency));
-                color += wave.color;
+                color += wave.color * (1 - timeAlive / WaveSources.MAX_WAVE_LIFETIME);
             }
         }
         transform.position = startPos + new Vector3(0, totalOffsetY, 0);
