@@ -13,11 +13,13 @@ public class TwitterScript : MonoBehaviour
 {
     private Stream stream;
     private Indico indico;
+    private WaveSources waveSources;
     private AudioSource audioSource;
     // Start is called before the first frame update
     void Start()
     {
         indico = GetComponent<Indico>();
+        waveSources = GetComponent<WaveSources>();
 
         Twity.Oauth.consumerKey = "QWfElQsOE4s7YpcT1q5OS0Dvi";
         Twity.Oauth.consumerSecret = "oerO9Mfr1Verbd64TydNi3LZnIE8PbWXm0iIfPJjgnKlw0HTM5";
@@ -97,6 +99,7 @@ public class TwitterScript : MonoBehaviour
                 Tweet tweet = JsonUtility.FromJson<Tweet>(response);
                 indico.GetSentiment(tweet.text, (Indico.Sentiment s) => {
                     AudioSource.PlayClipAtPoint(randomChirp(sent2Spec(s.result)), new Vector3(0, 0, 0), followers2Volume(tweet.user.followers_count));
+                    waveSources.CreateWave(followers2Volume(tweet.user.followers_count), UnityEngine.Random.Range(2f, 5f), UnityEngine.Random.Range(0.2f, 0.7f), UnityEngine.Random.Range(-25f, 25f), UnityEngine.Random.Range(-25f, 25f));
                     Debug.Log($"{tweet.user.followers_count} : {tweet.text}");
                 });
             }
